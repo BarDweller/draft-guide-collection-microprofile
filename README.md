@@ -1,6 +1,6 @@
 ## What you will learn
 
-You will learn how to create, run, update, deploy and deliver a simple cloud native microservice application using the Kabanero java-microprofile collection and Appsody.
+You will learn how to create, run, update, deploy and deliver a simple cloud native microservice application using the Kabanero java-spring-boot2 collection and Appsody.
 
 ## Prerequisites
 
