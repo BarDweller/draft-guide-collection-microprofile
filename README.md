@@ -71,27 +71,48 @@ you can now initialise the project using the Appsody CLI
 appsody init java-spring-boot2
 ```
 
-the output from the command will vary depending on whether you have an installation of Java and Maven on your system. The example below is from a system with neither installed.
+the output from the command will vary depending on whether you have an installation of Java on your system, the output below is from a system that has Java.
 
 ```
-[InitScript] Unable to find any JVMs matching version "(null)".
-[InitScript] No Java runtime present, try --request to install.
-[InitScript] Unable to find a $JAVA_HOME at "/usr", continuing with system-provided Java...
-[InitScript] No Java runtime present, requesting install.
-[Warning] The stack init script failed: exit status 1
-[Warning] Your local IDE may not build properly, but the Appsody container should still work.
-[Warning] To try again, resolve the issue then run `appsody init` with no arguments.
+Running appsody init...
+Downloading java-spring-boot2 template project from https://github.com/kabanero-io/collections/releases/download/v0.1.2/incubator.java-spring-boot2.v0.3.9.templates.default.tar.gz
+Download complete. Extracting files from java-spring-boot2.tar.gz
+Setting up the development environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running command: docker[run --rm --entrypoint /bin/bash kabanero/java-spring-boot2:0.3 -c find /project -type f -name .appsody-init.sh]
+Extracting project from development environment
+Running command: docker[create --name my-project-extract -v /home/username/projects/simple-spring-boot2/.:/project/user-app -v /home/username/.m2/repository:/mvn/repository kabanero/java-spring-boot2:0.3]
+Running command: docker[cp my-project-extract:/project /home/username/.appsody/extract/simple-spring-boot2]
+Running command: docker[rm my-project-extract -f]
+Project extracted to /home/username/projects/simple-spring-boot2/.appsody_init
+Running command: ./.appsody-init.sh[]
+Successfully initialized Appsody project
+
 ```
 Your project is now initialised.
 
 ## Understanding the project layout
 
-TODO
-<Screenshot>
+```
+./.vscode
+./.gitignore
+./.appsody-config.yaml
+
+
+./src/main/java/application/Main.java
+./src/main/java/application/LivenessEndpoint.java
+
+./src/test/java/application/MainTests.java
+
+./src/main/resources/application.properties
+./src/main/resources/public/index.html
+
+./pom.xml
+```
 
 This is intentionally a 'bare-bones' project so as to avoid the need to delete unnecessary files. It contains a
-Spring Application class called Main.java, an example Liveness Endpoint called LivenessEndpoint.java, some Spring 
-configuration in application.properties, a static index.html and the project build file, pom.xml
+Spring Application class called Main.java, an example Liveness Endpoint called LivenessEndpoint.java, a simple test class, 
+some Spring configuration in application.properties, a static index.html and the project build file, pom.xml
 
 ## Running the Appsody development environment
 
