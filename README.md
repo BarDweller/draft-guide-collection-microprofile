@@ -61,14 +61,14 @@ You Appsody CLI is now configured to use the Kabanero collections.
 Next you need to initialise you project, first create a directory to contain it
 
 ```
-mkdir -p ~/projects/simple-microprofile
-cd ~/projects/simple-microprofile
+mkdir -p ~/projects/simple-spring-boot2
+cd ~/projects/simple-spring-boot2
 ```
 
 you can now initialise the project using the Appsody CLI
 
 ```
-appsody init java-microprofile
+appsody init java-spring-boot2
 ```
 
 the output from the command will vary depending on whether you have an installation of Java and Maven on your system. The example below is from a system with neither installed.
@@ -86,12 +86,12 @@ Your project is now initialised.
 
 ## Understanding the project layout
 
-*TO DO - Lift from Graham Charter workshop*
+TODO
 <Screenshot>
 
 This is intentionally a 'bare-bones' project so as to avoid the need to delete unnecessary files. It contains a
-JAX-RS Application class called StarterApplication.java, and Liberty server configuration, server.xml, and static
-html file, index.html and the project build file, pom.xml
+Spring Application class called Main.java, an example Liveness Endpoint called LivenessEndpoint.java, some Spring 
+configuration in application.properties, a static index.html and the project build file, pom.xml
 
 ## Running the Appsody development environment
 
@@ -101,61 +101,49 @@ Start the Appsody development environment in preparation for developing the micr
 appsody run
 ```
 
-the Appsody CLI will launch a local docker image containing a Open Liberty server which will host the microservice. After a period of time you will see messages similar to the following
+the Appsody CLI will launch a local docker image containing a server which will host the microservice. After a period of time you will see messages similar to the following
 
 ```
-[Container] [INFO] [AUDIT   ] CWWKF0011I: The defaultServer server is ready to run a smarter planet. The defaultServer server started in 20.235 seconds.
+TODO: Oz.
 ```
 
 this indicates that the server is started and you are ready to begin development.
 
 ## Updating the application
 
-First navigate to the JAX-RS application endpoint to confirm that there are no JAX-RS resources available. Open the following link in your browser:
-http://localhost:9080/starter
-You should see an HTTP 500 error with the following message stating that there are no provider or resource classes associated with the application:
+We shall create a simple new REST endpoint and add it to the application.
+
+First navigate to the endpoint with a browser to confirm that the endpoint does not exist currently. Open the following link in your browser:
+http://localhost:8080/example
+You should see an HTTP error TODO
 
 ```
-Error 500: javax.servlet.ServletException: At least one provider or resource class should be specified for application class "dev.appsody.starter.StarterApplication
+TODO: http error goes here. 
 ```
 
-Within your project folder navigate to the `src/main/java/dev/appsody/starter` folder. Within the folder create a file named `StarterResource.java`. Open the file in your editor and update to read
+Within your project folder navigate to the `src/main/java/application` folder. Within the folder create a file named `ExampleEndpoint.java`. Open the file in your editor and update to read
 
 ```
-package dev.appsody.starter;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-@Path("/resource")
-public class StarterResource {
-    @GET
-    public String getRequest() {
-        return "StarterResource response";
-    }
-}
+package java.application;
+
+TODO.. add code.
 ```
 
 when saved you should see the source being compiled and the application updated
 
 ```
-[Container] [INFO] [AUDIT   ] CWWKT0017I: Web application removed (default_host): http://85862d8696be:9080/
-[Container] [INFO] [AUDIT   ] CWWKZ0009I: The application starter-app has stopped successfully.
-[Container] [INFO] [AUDIT   ] CWWKT0016I: Web application available (default_host): http://85862d8696be:9080/
-[Container] [INFO] [AUDIT   ] CWWKZ0003I: The application starter-app updated in 0.988 seconds.
+TODO.. spring logs
 ```
 
-Now if you browse http://localhost:9080/starter you will no longer see the HTTP 500 error. The resource we just added is actually available at a location under `starter`. Browse the following URL to see the resource response:
-
-```
-http://localhost:9080/starter/resource
-```
+Now if you browse http://localhost:8080/example you will no longer see the HTTP error. The endpoint response will be displayed.
 
 which should show
 
 ```
-StarterResource response
+TODO.. endpoint content
 ```
 
-Try changing the message in `StarterResource.java` saving and refreshing the page. You'll see it only takes a few seconds for the change to take effect.
+Try changing the message in `ExampleEndpoint.java` saving and refreshing the page. You'll see it only takes a few seconds for the change to take effect.
 
 ## Stopping the Appsody development environment
 
@@ -184,10 +172,10 @@ you can check the status of the application pods using
 kubectl get pods
 NAME                                   READY   STATUS    RESTARTS   AGE
 appsody-operator-859b97bb98-xm8nl      1/1     Running   1          8d
-simple-microprofile-77d6868765-bhd8x   1/1     Running   0          3m21s
+simple-spring-boot2-77d6868765-bhd8x   1/1     Running   0          3m21s
 ```
 
-once the simple-microprofile pod is started go to the URL from the deploy step and you should see the Appsody microservice splash screen. Got to http://localhost:30262/starter/resource and you will see your deployed application response.
+once the simple-spring-boot2 pod is started go to the URL from the deploy step and you should see the Appsody microservice splash screen. Got to http://localhost:30262/example and you will see your deployed application response.
 To stop the deployed application use
 
 ```
@@ -218,22 +206,22 @@ createKnativeService: true
 to deploy from your local image registry use
 
 ```
-appsody deploy --tag dev.local/simple-microprofile --namespace <namespace>
+appsody deploy --tag dev.local/simple-spring-boot2 --namespace <namespace>
 ```
 
 or to deploy from docker hub use
 
 ```
-appsody deploy --push -—tag <my-account>/simple-microprofile --namespace <namespace>
+appsody deploy --push -—tag <my-account>/simple-spring-boot2 --namespace <namespace>
 ```
 
 once deployment completes you should see a message detailing the serving url
 
 ```
-Deployed project running at "http://simple-microprofile.knative-serving.192.168.1.10.nip.io"
+Deployed project running at "http://simple-spring-boot2.knative-serving.192.168.1.10.nip.io"
 ```
 
-browse to `http://simple-microprofile.knative-serving.192.168.1.10.nip.io/starter/resource` to see the response from your application.
+browse to `http://simple-spring-boot2.knative-serving.192.168.1.10.nip.io/example` to see the response from your application.
 
 
 ## Deliver to enterprise pipelines
