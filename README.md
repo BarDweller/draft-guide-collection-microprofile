@@ -45,7 +45,7 @@ kabanero    https://github.com/kabanero-io/collections/releases/download/v0.1.2/
 Set the Kabanero index to be the default
 
 ```
-appsody appsody repo set-default kabanero
+appsody repo set-default kabanero
 ```
 
 Check it updated
