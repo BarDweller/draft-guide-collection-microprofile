@@ -122,10 +122,12 @@ Start the Appsody development environment in preparation for developing the micr
 appsody run
 ```
 
-the Appsody CLI will launch a local docker image containing a server which will host the microservice. After a period of time you will see messages similar to the following
+the Appsody CLI will launch a local docker container that will compile and host the microservice. After a period of time you will see messages similar to the following
 
 ```
-TODO: Oz.
+[Container] 2019-09-12 17:28:44.066  INFO 171 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+[Container] 2019-09-12 17:28:44.205  INFO 171 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+[Container] 2019-09-12 17:28:44.209  INFO 171 --- [  restartedMain] application.Main                         : Started Main in 6.051 seconds (JVM running for 6.923)
 ```
 
 this indicates that the server is started and you are ready to begin development.
@@ -136,32 +138,87 @@ We shall create a simple new REST endpoint and add it to the application.
 
 First navigate to the endpoint with a browser to confirm that the endpoint does not exist currently. Open the following link in your browser:
 http://localhost:8080/example
-You should see an HTTP error TODO
+You should see an HTTP error 404 with Spring's default "Whitelabel Error Page".
 
 ```
-TODO: http error goes here. 
+Whitelabel Error Page
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+
+Thu Sep 12 17:29:43 UTC 2019
+There was an unexpected error (type=Not Found, status=404).
+No message available
 ```
 
-Within your project folder navigate to the `src/main/java/application` folder. Within the folder create a file named `ExampleEndpoint.java`. Open the file in your editor and update to read
+With the container still running, navigate enter your project folder and navigate to the `src/main/java/application` directory. Within the directory create a file named `ExampleEndpoint.java`. Open the file in your editor and update to read
 
 ```
-package java.application;
+package application;
 
-TODO.. add code.
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ExampleEndpoint {
+
+    @RequestMapping("/example")
+    public String example() {
+        return "This is an example";
+    }
+}
 ```
 
 when saved you should see the source being compiled and the application updated
 
 ```
-TODO.. spring logs
+[Container] Running: /project/java-spring-boot2-build.sh recompile
+[Container] Compile project in the foreground
+[Container] > mvn compile
+[Container] [INFO] Scanning for projects...
+[Container] [INFO] 
+[Container] [INFO] ----------------------< dev.appsody:application >-----------------------
+[Container] [INFO] Building application 0.0.1-SNAPSHOT
+[Container] [INFO] --------------------------------[ jar ]---------------------------------
+[Container] [INFO] 
+[Container] [INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ application ---
+[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
+[Container] [INFO] Copying 2 resources
+[Container] [INFO] 
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ application ---
+[Container] [INFO] Changes detected - recompiling the module!
+[Container] [INFO] Compiling 3 source files to /project/user-app/target/classes
+[Container] [INFO] 
+[Container] [INFO] --- maven-antrun-plugin:1.1:run (trigger-spring-restart) @ application ---
+[Container] [INFO] Executing tasks
+[Container]      [echo] Triggering Spring app restart.
+[Container] [INFO] Executed tasks
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] BUILD SUCCESS
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] Total time:  3.585 s
+[Container] [INFO] Finished at: 2019-09-12T17:34:37Z
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] 2019-09-12 17:34:38.316  INFO 171 --- [      Thread-15] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+[Container] 
+[Container]   .   ____          _            __ _ _
+[Container]  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+[Container] ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+[Container]  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+[Container]   '  |____| .__|_| |_|_| |_\__, | / / / /
+[Container]  =========|_|==============|___/=/_/_/_/
+[Container]  :: Spring Boot ::        (v2.1.6.RELEASE)
+...
+[Container] 2019-09-12 17:34:39.711  INFO 171 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+[Container] 2019-09-12 17:34:39.772  INFO 171 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+[Container] 2019-09-12 17:34:39.773  INFO 171 --- [  restartedMain] application.Main                         : Started Main in 1.403 seconds (JVM running for 362.487)
+[Container] 2019-09-12 17:34:39.788  INFO 171 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
 ```
 
 Now if you browse http://localhost:8080/example you will no longer see the HTTP error. The endpoint response will be displayed.
 
-which should show
+This should show;
 
 ```
-TODO.. endpoint content
+This is an example
 ```
 
 Try changing the message in `ExampleEndpoint.java` saving and refreshing the page. You'll see it only takes a few seconds for the change to take effect.
